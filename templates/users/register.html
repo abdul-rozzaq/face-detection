@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="container d-flex justify-content-center">
+
+    <div class="card w-50 border">
+        <div class="card-body">
+
+            <h2>Ro'yxatdan o'tish</h2>
+
+            <form method="POST" class="mb-3" enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+                <button type="button" class="btn btn-primary mb-3" data-mdb-ripple-init data-mdb-modal-init
+                    data-mdb-target="#camera-modal">Kamerani ochish</button>
+
+                <button type="submit" class="btn btn-success w-100">Ro'yxatdan o'tish</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="camera-modal" tabindex="-1" aria-labelledby="camera-modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="camera-modalLabel">Rasmga olish</h5>
+                <button type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <video class="w-100" id="videoElement" autoplay playsinline></video>
+                <canvas id="canvasElement" style="display:none;"></canvas>
+                <img id="capturedImage" class="w-100" alt="Captured Image" style="display:none;" />
+            </div>
+            <div class="modal-footer d-flex">
+                <button type="button" id="resetButton" class="btn btn-secondary" data-mdb-ripple-init>Qaytadan</button>
+                <button type="button" id="captureButton" class="btn btn-success me-auto" data-mdb-ripple-init>Rasmga
+                    olish</button>
+                <button type="button" id="saveImage" class="btn btn-primary" data-mdb-ripple-init
+                    data-mdb-dismiss="modal">Saqlash</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="{% static 'js/app.js' %}"></script>
+
+{% endblock %}
