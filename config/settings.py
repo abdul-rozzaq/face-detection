@@ -1,10 +1,15 @@
 from pathlib import Path
+from environs import Env
+
+env = Env()
+env.read_env()
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = "django-insecure-s_ge_)1(rl4)@wt5+6^(0nt$wfu%-p9$g%3jqj1@22jmdu4f@"
 
-DEBUG = True
+DEBUG = env.bool('DEBUG', default=False)
 
 ALLOWED_HOSTS = ["*"]
 
@@ -17,6 +22,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "project",
+    
+    "api",
 ]
 
 MIDDLEWARE = [

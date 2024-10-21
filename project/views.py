@@ -1,9 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
 
 from project.models import User
 
@@ -88,14 +85,3 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return redirect("login")
-
-
-@api_view(["POST"])
-def recognize(request):
-
-    image1_file = request.FILES.get("image1")
-    image2_file = request.FILES.get("image2")
-
-    result = compare_faces(image1_file, image2_file)
-
-    return HttpResponse(result)

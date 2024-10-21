@@ -1,15 +1,24 @@
+from io import BytesIO
+
 import face_recognition
 import numpy as np
+import requests
+
 from PIL import Image
 
 
-def compare_faces(user_image, image):
+def get_image_from_url(url):
+    response = requests.get(url)
+    return BytesIO(response.content)
 
-    if not user_image or not image:
+
+def compare_faces(image1, image2):
+
+    if not image1 or not image2:
         return "Ikkala rasm ham kerak"
 
-    image1 = np.array(Image.open(user_image).convert("RGB"))
-    image2 = np.array(Image.open(image).convert("RGB"))
+    image1 = np.array(Image.open(image1).convert("RGB"))
+    image2 = np.array(Image.open(image2).convert("RGB"))
 
     try:
         image1_encoding = face_recognition.face_encodings(image1)
