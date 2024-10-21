@@ -22,19 +22,23 @@ class RecognizeAPIView(generics.CreateAPIView):
         image1_path = request.POST.get("image1_path")
         image2_path = request.POST.get("image2_path")
 
-        if image1 and image2:
-            result = compare_faces(image1, image2)
+        try:
+            if image1 and image2:
+                result = compare_faces(image1, image2)
 
-        elif image1_path and image2_path:
-            result = compare_faces(image1=get_image_from_url(image1_path), image2=get_image_from_url(image2_path))
+            elif image1_path and image2_path:
+                result = compare_faces(image1=get_image_from_url(image1_path), image2=get_image_from_url(image2_path))
 
-        elif image1 and image1_path:
-            result = compare_faces(image1, get_image_from_url(image1_path))
+            elif image1 and image1_path:
+                result = compare_faces(image1, get_image_from_url(image1_path))
 
-        else:
-            return Response({"message": "Rasm to'g'ri yuklanmagan"})
+            else:
+                return Response({"message": "Rasm to'g'ri yuklanmagan"})
 
-        return Response({"message": result})
+            return Response({"message": result})
+
+        except Exception as e:
+            return Response({"message": str(e)})
 
 
 # class RecognizeUrlsAPIView(generics.CreateAPIView):
