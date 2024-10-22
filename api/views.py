@@ -16,46 +16,26 @@ class RecognizeAPIView(generics.CreateAPIView):
 
     def post(self, request, *args, **kwargs):
 
-        image1 = request.FILES.get("image1")
-        image2 = request.FILES.get("image2")
+        faceOne = request.FILES.get("image1")
+        faceTwo = request.FILES.get("image2")
 
         image1_path = request.POST.get("image1_path")
         image2_path = request.POST.get("image2_path")
 
         try:
-            if image1 and image2:
-                result = compare_faces(image1, image2)
+            if faceOne and faceTwo:
+                result = compare_faces(faceOne, faceTwo)
 
             elif image1_path and image2_path:
                 result = compare_faces(image1=get_image_from_url(image1_path), image2=get_image_from_url(image2_path))
 
-            elif image1 and image1_path:
-                result = compare_faces(image1, get_image_from_url(image1_path))
+            elif faceOne and image1_path:
+                result = compare_faces(faceOne, get_image_from_url(image1_path))
 
             else:
-                return Response({"message": "Rasm to'g'ri yuklanmagan"})
+                return Response({"message": "Rasm to'g'ri yuklanmagan"}, status=400)
 
-            return Response({"message": result})
+            return Response({"message": result[0]}, status=result[1])
 
         except Exception as e:
-            return Response({"message": str(e)})
-
-
-# class RecognizeUrlsAPIView(generics.CreateAPIView):
-#     serializer_class = RecognizeUrlsSerializer
-
-#     def post(self, request, *args, **kwargs):
-
-#         image1_path = request.POST.get("image1_path")
-#         image2_path = request.POST.get("image2_path")
-
-#         if image1_path and image2_path:
-
-#             result = compare_faces(
-#                 get_image_from_url(image1_path),
-#                 get_image_from_url(image2_path),
-#             )
-
-#             return Response({"message": result})
-
-#         return Response({"message": "Rasm to'g'ri yuklanmagan"})
+            return Response({"message": str(e)}, status=400)

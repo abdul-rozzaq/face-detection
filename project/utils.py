@@ -15,7 +15,7 @@ def get_image_from_url(url):
 def compare_faces(image1, image2):
 
     if not image1 or not image2:
-        return "Ikkala rasm ham kerak"
+        return "Ikkala rasm ham kerak", 400
 
     image1 = np.array(Image.open(image1).convert("RGB"))
     image2 = np.array(Image.open(image2).convert("RGB"))
@@ -25,16 +25,16 @@ def compare_faces(image1, image2):
         image2_encoding = face_recognition.face_encodings(image2)
 
     except RuntimeError:
-        return "Aniqlashni iloji bo'lmadi, Qayta urinib ko'ring"
+        return "Aniqlashni iloji bo'lmadi, Qayta urinib ko'ring", 400
 
     if len(image1_encoding) == 0 or len(image2_encoding) == 0:
-        return "Yuzlardan biri yoki ikkalasi topilmadi"
+        return "Yuzlardan biri yoki ikkalasi topilmadi", 400
 
     natija = face_recognition.compare_faces([image1_encoding[0]], image2_encoding[0])
 
     print("Natijalar:", natija)
 
     if natija[0]:
-        return "Yuzlar mos keldi"
+        return "Yuzlar mos keldi", 200
     else:
-        return "Yuzlar mos kelmadi"
+        return "Yuzlar mos kelmadi", 404
