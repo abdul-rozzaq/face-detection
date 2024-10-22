@@ -16,8 +16,8 @@ class RecognizeAPIView(generics.CreateAPIView):
 
     def post(self, request, *args, **kwargs):
 
-        faceOne = request.FILES.get("image1")
-        faceTwo = request.FILES.get("image2")
+        faceOne = request.FILES.get("faceOne")
+        faceTwo = request.FILES.get("faceTwo")
 
         image1_path = request.POST.get("image1_path")
         image2_path = request.POST.get("image2_path")
